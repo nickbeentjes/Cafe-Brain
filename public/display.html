@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Café Display</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body { background: #000; color: #fff; }
+    .board { display:flex; gap:2rem; flex-wrap:wrap; }
+    .tile { background:#111; padding:1rem 1.5rem; border-radius:16px; box-shadow: 0 0 40px rgba(255,255,255,0.08) inset; }
+    .big { font-size: 3rem; }
+    .small { opacity:.9 }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kitchen Board</h1>
+    <div class="status">Status: <span id="status">offline</span></div>
+  </header>
+  <section class="board">
+    <div class="tile">
+      <div class="big">Prep Timers</div>
+      <ul id="prepTimers"></ul>
+    </div>
+    <div class="tile">
+      <div class="big">Incoming Orders</div>
+      <ul id="orders"></ul>
+    </div>
+  </section>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/display.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    
+    "TIMESCALE_HOST": "4.198.153.55",
+    "TIMESCALE_PORT": "5432",
+    "TIMESCALE_DB": "cafe",
+    "TIMESCALE_USER": "postgres",
+    "TIMESCALE_PASSWORD": "bzchzz",
+    
+    "MONGODB_URI": "mongodb://cafeuser:Lynx%245124@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe",
+    
+    "SQUARE_ACCESS_TOKEN": "EAAAEM4OAGO-ToEf-mn8NyvOaxdJeiXejYr3bhcvjkYhyPAryCRFhsd9h3smTYOv",
+    "SQUARE_LOCATION_ID": "L5D18K5RBWQJH",
+    "SQUARE_ENV": "production",
+    "SQUARE_VERSION": "2025-07-16",
+    
+    "NODE_ENV": "production",
+    "SQ_ORDERS_BACKFILL_DAYS": "1"
+  }
+}

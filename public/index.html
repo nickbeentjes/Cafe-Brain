@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Café Controller</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Café Controller</h1>
+    <div class="status">Status: <span id="status">offline</span></div>
+  </header>
+
+  <section class="card">
+    <h2>Quick Add Product</h2>
+    <p>Examples:</p>
+    <ul>
+      <li>I made a new focaccia called MeGeat for $16 add to fav</li>
+      <li>New toastie called Truffle Hog; ingredients: 50g ham, 50g salami, 20g truffle mayo, 20g rocket</li>
+    </ul>
+    <textarea id="quickText" rows="3" placeholder="Type natural text here"></textarea>
+    <textarea id="ingredientsText" rows="3" placeholder="Optional: ingredients with quantities and optional @unit costs e.g. 50g ham@$0.02/g"></textarea>
+    <button id="btnQuickAdd">Add / Suggest</button>
+    <div id="quickResult"></div>
+  </section>
+
+  <section class="card">
+    <h2>Products</h2>
+    <button id="btnRefreshProducts">Refresh</button>
+    <table id="productsTable">
+      <thead><tr><th>Name</th><th>Category</th><th>Fav</th><th>COGS</th><th>Price</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>Prep Markers</h2>
+    <input id="markerLabel" placeholder="Label" value="Prep">
+    <input id="markerMinutes" type="number" value="5" min="1">
+    <button id="btnAddMarker">Start</button>
+    <ul id="markersList"></ul>
+  </section>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/controller.js"></script>
+</body>
+</html>

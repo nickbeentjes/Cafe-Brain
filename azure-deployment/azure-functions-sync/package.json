@@ -1,0 +1,26 @@
+{
+  "name": "cafe-brain-sync-functions",
+  "version": "1.0.0",
+  "description": "Azure Functions for Cafe Brain Square sync",
+  "main": "index.js",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests yet...\""
+  },
+  "dependencies": {
+    "pg": "^8.11.3",
+    "mongoose": "^8.0.3",
+    "winston": "^3.11.0",
+    "moment-timezone": "^0.5.43",
+    "uuid": "^9.0.1",
+    "https": "^1.0.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@azure/functions": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

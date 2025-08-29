@@ -1,0 +1,24 @@
+{
+  "products": [
+    {
+      "id": "seed-flat-white",
+      "name": "Flat White",
+      "category": "coffee",
+      "cogs": 1.1,
+      "price": 4.5,
+      "favourite": true,
+      "sku": "FW-SML",
+      "createdAt": "2025-08-13T00:00:00Z"
+    },
+    {
+      "id": "seed-meatball-panini",
+      "name": "Meatball Panini",
+      "category": "food",
+      "cogs": 3.2,
+      "price": 12.9,
+      "favourite": true,
+      "sku": "PAN-MB",
+      "createdAt": "2025-08-13T00:00:00Z"
+    }
+  ]
+}

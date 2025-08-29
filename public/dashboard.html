@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Louise's Café Intelligence Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.bundle.min.js"></script>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Header -->
+    <header class="dashboard-header">
+      <div class="header-left">
+        <h1><i class="fas fa-brain"></i> Café Intelligence</h1>
+        <p class="subtitle">Powered by AI Analytics</p>
+      </div>
+      <div class="header-right">
+        <div class="status-indicator">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">Connecting...</span>
+        </div>
+        <div class="time-display" id="timeDisplay"></div>
+      </div>
+    </header>
+
+    <!-- AI Assistant Panel -->
+    <div class="ai-assistant-panel" id="aiPanel">
+      <div class="ai-header">
+        <i class="fas fa-robot"></i>
+        <span>Ask Louise's AI Assistant</span>
+        <button class="ai-toggle" id="aiToggle">
+          <i class="fas fa-chevron-down"></i>
+        </button>
+      </div>
+      <div class="ai-content" id="aiContent">
+        <div class="ai-examples">
+          <p>Try asking:</p>
+          <div class="example-queries">
+            <button class="example-query" data-query="How many chicken and cheese did we sell last week?">Sales by product</button>
+            <button class="example-query" data-query="Please help prepare a milk order">Stock recommendations</button>
+            <button class="example-query" data-query="When should I start the focaccia for tomorrow?">Production timing</button>
+            <button class="example-query" data-query="What's the weather impact on coffee sales?">Weather analysis</button>
+          </div>
+        </div>
+        <div class="ai-input-container">
+          <input type="text" id="aiInput" placeholder="Ask anything about your café..." />
+          <button id="aiSubmit">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+        <div class="ai-response" id="aiResponse"></div>
+      </div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid" id="dashboardGrid">
+      <!-- Revenue Overview Widget -->
+      <div class="widget revenue-widget" data-widget-id="revenue">
+        <div class="widget-header">
+          <h3><i class="fas fa-dollar-sign"></i> Revenue Overview</h3>
+          <div class="widget-controls">
+            <button class="widget-refresh" data-widget="revenue">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="widget-settings" data-widget="revenue">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="metric-row">
+            <div class="metric">
+              <span class="metric-value" id="todayRevenue">$0</span>
+              <span class="metric-label">Today</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value" id="weekRevenue">$0</span>
+              <span class="metric-label">This Week</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value" id="avgTransaction">$0</span>
+              <span class="metric-label">Avg Transaction</span>
+            </div>
+          </div>
+          <canvas id="revenueChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+
+      <!-- Sales Analytics Widget -->
+      <div class="widget sales-widget" data-widget-id="sales">
+        <div class="widget-header">
+          <h3><i class="fas fa-chart-line"></i> Sales Analytics</h3>
+          <div class="widget-controls">
+            <button class="widget-refresh" data-widget="sales">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="widget-settings" data-widget="sales">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="time-selector">
+            <button class="time-btn active" data-period="7d">7 Days</button>
+            <button class="time-btn" data-period="30d">30 Days</button>
+            <button class="time-btn" data-period="90d">90 Days</button>
+          </div>
+          <canvas id="salesChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+
+      <!-- Product Performance Widget -->
+      <div class="widget products-widget" data-widget-id="products">
+        <div class="widget-header">
+          <h3><i class="fas fa-coffee"></i> Top Products</h3>
+          <div class="widget-controls">
+            <button class="widget-refresh" data-widget="products">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="widget-settings" data-widget="products">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="product-list" id="productList">
+            <div class="loading">Loading products...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Insights Widget -->
+      <div class="widget customers-widget" data-widget-id="customers">
+        <div class="widget-header">
+          <h3><i class="fas fa-users"></i> Customer Insights</h3>
+          <div class="widget-controls">
+            <button class="widget-refresh" data-widget="customers">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="widget-settings" data-widget="customers">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="metric-row">
+            <div class="metric">
+              <span class="metric-value" id="uniqueCustomers">0</span>
+              <span class="metric-label">Unique Today</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value" id="repeatCustomers">0</span>
+              <span class="metric-label">Repeat Rate</span>
+            </div>
+          </div>
+          <canvas id="customerChart" width="400" height="150"></canvas>
+        </div>
+      </div>
+
+      <!-- Production Schedule Widget -->
+      <div class="widget production-widget" data-widget-id="production">
+        <div class="widget-header">
+          <h3><i class="fas fa-clock"></i> Production Schedule</h3>
+          <div class="widget-controls">
+            <button class="widget-refresh" data-widget="production">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="widget-settings" data-widget="production">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="schedule-list" id="scheduleList">
+            <div class="loading">Loading schedule...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stock Recommendations Widget -->
+      <div class="widget stock-widget" data-widget-id="stock">
+        <div class="widget-header">
+          <h3><i class="fas fa-boxes"></i> Stock Recommendations</h3>
+          <div class="widget-controls">
+            <button class="widget-refresh" data-widget="stock">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="widget-settings" data-widget="stock">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="stock-list" id="stockList">
+            <div class="loading">Loading recommendations...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weather Impact Widget -->
+      <div class="widget weather-widget" data-widget-id="weather">
+        <div class="widget-header">
+          <h3><i class="fas fa-cloud-sun"></i> Weather Impact</h3>
+          <div class="widget-controls">
+            <button class="widget-refresh" data-widget="weather">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="widget-settings" data-widget="weather">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="weather-info" id="weatherInfo">
+            <div class="loading">Loading weather...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Insights Widget -->
+      <div class="widget insights-widget" data-widget-id="insights">
+        <div class="widget-header">
+          <h3><i class="fas fa-lightbulb"></i> AI Insights</h3>
+          <div class="widget-controls">
+            <button class="widget-refresh" data-widget="insights">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button class="widget-settings" data-widget="insights">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="insights-list" id="insightsList">
+            <div class="loading">Loading insights...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Widget Settings Modal -->
+    <div class="modal" id="settingsModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Widget Settings</h3>
+          <button class="modal-close" id="modalClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="setting-group">
+            <label>Widget Position</label>
+            <div class="position-controls">
+              <button class="pos-btn" data-action="move-up">↑</button>
+              <button class="pos-btn" data-action="move-down">↓</button>
+              <button class="pos-btn" data-action="move-left">←</button>
+              <button class="pos-btn" data-action="move-right">→</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <label>Widget Size</label>
+            <div class="size-controls">
+              <button class="size-btn" data-size="small">Small</button>
+              <button class="size-btn" data-size="medium">Medium</button>
+              <button class="size-btn" data-size="large">Large</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <label>Refresh Interval</label>
+            <select id="refreshInterval">
+              <option value="30">30 seconds</option>
+              <option value="60">1 minute</option>
+              <option value="300">5 minutes</option>
+              <option value="900">15 minutes</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" id="resetWidget">Reset to Default</button>
+          <button class="btn-primary" id="saveSettings">Save Settings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
+
