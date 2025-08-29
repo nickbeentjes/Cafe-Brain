@@ -1,252 +1,194 @@
-# Louise's Café Intelligence Dashboard
+# 🧠 Cafe Brain - AI-Powered Restaurant Analytics Platform
 
-A comprehensive AI-powered business intelligence system for café management, featuring predictive analytics, natural language queries, and automated insights.
+A comprehensive restaurant management and analytics platform that integrates with Square POS to provide real-time insights, AI-powered analytics, and automated reporting.
 
 ## 🚀 Features
 
-### **AI-Powered Analytics**
-- **Natural Language Queries**: Ask questions like "How many chicken and cheese did we sell last week?" or "When should I start the focaccia for tomorrow?"
-- **Predictive Analytics**: Demand forecasting, customer surge prediction, and production timing recommendations
-- **Weather Impact Analysis**: Correlate weather data with sales patterns
-- **Automated Insights**: AI-generated business insights and anomaly detection
+### Core Functionality
+- **Square POS Integration** - Real-time transaction sync from Square
+- **TimescaleDB Analytics** - Time-series data storage for transaction history
+- **MongoDB Insights** - AI-generated analytics and reports
+- **Real-time Dashboard** - Live restaurant performance monitoring
+- **Automated Sync** - Background workers for continuous data synchronization
 
-### **Real-Time Dashboard**
-- **Revenue Overview**: Live tracking of daily/weekly revenue and transaction metrics
-- **Sales Analytics**: Interactive charts showing sales trends over different time periods
-- **Product Performance**: Top-selling products with revenue and quantity analysis
-- **Customer Insights**: Customer behavior patterns and repeat customer rates
-- **Production Schedule**: AI-recommended production timing for baked goods
-- **Stock Recommendations**: Intelligent stock level suggestions based on demand patterns
-- **Weather Impact**: Current weather and its predicted impact on sales
+### AI-Powered Analytics
+- **Daily Reports** - Automated daily sales and performance summaries
+- **Anomaly Detection** - AI-powered detection of unusual transaction patterns
+- **Predictive Insights** - Sales forecasting and trend analysis
+- **Smart Recommendations** - AI-driven suggestions for business optimization
 
-### **Smart Recommendations**
-- **Stock Management**: Automated stock recommendations with confidence levels
-- **Production Planning**: Optimal timing for baking and food preparation
-- **Demand Forecasting**: Predict customer surges and product demand
-- **Cost Optimization**: Insights for improving profitability
-
-### **Data Integration**
-- **Square POS Integration**: Automatic sync of transaction data
-- **TimescaleDB**: High-performance time-series database for analytics
-- **MongoDB**: Document storage for AI insights and configurations
-- **Real-time Updates**: WebSocket-based live data synchronization
+### Azure Integration (Coming Soon)
+- **Azure AI Services** - Advanced machine learning and cognitive services
+- **Azure AI Search** - Intelligent search and content discovery
+- **Azure Functions** - Serverless background processing
+- **Azure App Service** - Scalable web hosting
 
 ## 🏗️ Architecture
 
 ```
-Square POS → Enhanced Sync → TimescaleDB → Analytics Engine → AI Insights
-     ↓              ↓              ↓              ↓              ↓
-Transaction    Data Processing   Time-series    Predictive    Dashboard
-   Data         & Storage        Analytics      Models        Display
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Square POS    │    │   Cafe Brain    │    │   Azure Cloud   │
+│                 │    │                 │    │                 │
+│ • Transactions  │───▶│ • Web App       │───▶│ • App Service   │
+│ • Orders        │    │ • API Server    │    │ • Functions     │
+│ • Products      │    │ • Dashboard     │    │ • AI Services   │
+└─────────────────┘    └─────────────────┘    │ • AI Search     │
+                                              └─────────────────┘
+                                                       │
+                                              ┌─────────────────┐
+                                              │   Databases     │
+                                              │                 │
+                                              │ • TimescaleDB   │
+                                              │ • MongoDB       │
+                                              └─────────────────┘
 ```
 
-## 📋 Prerequisites
+## 🛠️ Technology Stack
 
+- **Backend**: Node.js, Express.js
+- **Databases**: PostgreSQL (TimescaleDB), MongoDB
+- **Frontend**: HTML5, CSS3, JavaScript
+- **Background Jobs**: PM2 (local), Azure Functions (cloud)
+- **AI/ML**: Custom analytics engine, Azure AI Services (planned)
+- **Deployment**: Azure App Service, Azure Functions
+
+## 📦 Installation
+
+### Prerequisites
 - Node.js 18+ 
-- TimescaleDB (PostgreSQL with TimescaleDB extension)
+- PostgreSQL with TimescaleDB extension
 - MongoDB
 - Square Developer Account
-- OpenWeather API Key (optional)
-- OpenAI API Key (optional)
 
-## 🛠️ Installation
-
-### 1. Clone and Install
+### Local Setup
 ```bash
-git clone <repository-url>
-cd cafe-intelligence
+# Clone the repository
+git clone <your-repo-url>
+cd Cafe-Brain
+
+# Install dependencies
 npm install
+
+# Configure environment variables
+cp .env.example .env
+# Edit .env with your database and Square credentials
+
+# Initialize databases
+node scripts/setup-env.js
+
+# Start the application
+npm start
 ```
 
-### 2. Environment Configuration
-Create a `.env` file with the following variables:
+### Database Setup
+```bash
+# Test database connections
+node scripts/db-diagnostic.js
 
-```env
-# Server Configuration
-PORT=5050
-NODE_ENV=production
+# Quick database test
+node scripts/quick-db-test.js
 
+# Test Square sync
+node scripts/test-square-sync.js
+```
+
+## 🚀 Azure Deployment
+
+### Quick Deploy (Recommended)
+1. Follow the [Azure Deployment Guide](DEPLOY-TO-AZURE.md)
+2. Use the provided ARM template: `azure-deployment/deploy-template.json`
+3. Deploy web app code: `cafe-brain-web.zip`
+
+### Manual Deployment
+```bash
+# Deploy infrastructure
+az deployment group create \
+  --resource-group bledisloe \
+  --template-file azure-deployment/deploy-template.json
+
+# Deploy web app
+az webapp deployment source config-zip \
+  --resource-group bledisloe \
+  --name cafe-brain-app \
+  --src cafe-brain-web.zip
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+```bash
 # Square API Configuration
-SQUARE_ACCESS_TOKEN=EAAAEM4OAGO-ToEf-mn8NyvOaxdJeiXejYr3bhcvjkYhyPAryCRFhsd9h3smTYOv
-SQUARE_LOCATION_ID=L5D18K5RBWQJH
+SQUARE_ACCESS_TOKEN=your_square_access_token
+SQUARE_LOCATION_ID=your_square_location_id
 SQUARE_ENV=production
-SQUARE_VERSION=2025-07-16
 
 # Database Configuration
-TIMESCALE_HOST=your_timescale_host
+TIMESCALE_HOST=your_postgres_host
 TIMESCALE_PORT=5432
 TIMESCALE_DB=cafe
 TIMESCALE_USER=postgres
 TIMESCALE_PASSWORD=your_password
 
-MONGODB_URI=mongodb://your_mongodb_connection_string
+MONGODB_URI=mongodb://user:password@host:port/database
 
-# External APIs
-OPENWEATHER_API_KEY=your_openweather_api_key
-OPENAI_API_KEY=your_openai_api_key
-
-# Café Configuration
-CAFE_LOCATION=Melbourne,AU
-
-# Pricing Configuration
-MIN_MARKUP=3.0
-PRICE_ROUNDING=0.5
-PSYCH_ENDING=0.90
+# Application Configuration
+NODE_ENV=production
+SQ_ORDERS_BACKFILL_DAYS=30
 ```
 
-### 3. Database Setup
+### Square API Setup
+1. Create a Square Developer account
+2. Create a new application
+3. Get your Access Token and Location ID
+4. Configure webhook endpoints (optional)
+
+## 📊 Usage
+
+### Dashboard Access
+- **Local**: http://localhost:3000
+- **Azure**: https://your-app-name.azurewebsites.net
+
+### Key Features
+- **Real-time Analytics**: Live transaction monitoring
+- **Historical Data**: Time-series analysis of sales trends
+- **AI Insights**: Automated anomaly detection and recommendations
+- **Export Capabilities**: Data export for external analysis
+
+## 🔮 Future Enhancements
+
+### Azure AI Integration (Planned)
+- **Azure OpenAI Service**: Advanced natural language processing
+- **Azure Cognitive Services**: Computer vision for receipt analysis
+- **Azure Machine Learning**: Custom ML models for sales prediction
+- **Azure AI Search**: Intelligent search across transaction history
+
+### Advanced Features
+- **Multi-location Support**: Manage multiple restaurant locations
+- **Inventory Management**: Real-time inventory tracking
+- **Customer Analytics**: Customer behavior and loyalty analysis
+- **Mobile App**: Native mobile application
+- **API Gateway**: RESTful API for third-party integrations
+
+## 🧪 Testing
+
 ```bash
-npm run setup-db
+# Test database connections
+npm run test:db
+
+# Test Square API integration
+npm run test:square
+
+# Run all tests
+npm test
 ```
 
-### 4. Start the Application
-```bash
-npm start
-```
+## 📝 API Documentation
 
-The dashboard will be available at `http://localhost:5050/dashboard`
-
-## 🎯 Usage
-
-### **Natural Language Queries**
-Ask the AI assistant questions like:
-- "How many chicken and cheese did we sell last week?"
-- "Please help prepare a milk order"
-- "When should I start the focaccia for tomorrow?"
-- "What's the weather impact on coffee sales?"
-
-### **Dashboard Customization**
-- **Widget Settings**: Click the gear icon on any widget to customize
-- **Refresh Intervals**: Set automatic refresh rates for each widget
-- **Layout**: Drag and drop widgets to rearrange the dashboard
-- **Time Periods**: Switch between 7-day, 30-day, and 90-day views
-
-### **Production Planning**
-The system automatically:
-- Analyzes historical demand patterns
-- Considers weather forecasts
-- Recommends optimal production start times
-- Provides confidence levels for predictions
-
-### **Stock Management**
-Get intelligent recommendations for:
-- Milk orders based on consumption patterns
-- Ingredient quantities based on demand forecasts
-- Reorder timing to minimize waste
-- Safety stock levels
-
-## 📊 API Endpoints
-
-### **Analytics**
-- `GET /api/analytics/revenue` - Revenue overview and trends
-- `GET /api/analytics/sales?period=7d` - Sales data by time period
-- `GET /api/analytics/products` - Top-performing products
-- `GET /api/analytics/customers` - Customer insights
-- `GET /api/analytics/production` - Production schedules
-- `GET /api/analytics/stock` - Stock recommendations
-- `GET /api/analytics/weather` - Weather data and impact
-- `GET /api/analytics/insights` - AI-generated insights
-
-### **AI Assistant**
-- `POST /api/ai/query` - Natural language query processing
-
-### **Original Features**
-- `GET /api/products` - Product management
-- `POST /api/products` - Add new products
-- `GET /api/markers` - Production timers
-- `POST /api/markers` - Create production timers
-
-## 🔧 Development
-
-### **Running in Development Mode**
-```bash
-npm run dev
-```
-
-### **Database Setup**
-```bash
-npm run setup-db
-```
-
-### **Running Analytics**
-```bash
-npm run analyze
-```
-
-### **Training Predictive Models**
-```bash
-npm run train-models
-```
-
-## 📈 Data Flow
-
-1. **Square Sync**: Enhanced sync worker pulls transaction data every 5 minutes
-2. **Data Processing**: Transactions are stored in TimescaleDB with analytics views
-3. **AI Analysis**: Analytics engine processes data and generates insights
-4. **Real-time Updates**: WebSocket connections push updates to dashboard
-5. **Predictive Models**: Machine learning models generate forecasts and recommendations
-
-## 🚀 Deployment
-
-### **Azure App Service**
-The system is designed to run on Azure App Service with:
-- TimescaleDB on Azure Database for PostgreSQL
-- MongoDB on Azure Cosmos DB
-- Environment variables configured in App Service settings
-
-### **PM2 Process Management**
-```bash
-pm2 start ecosystem.sync.config.js
-pm2 save
-pm2 startup
-```
-
-## 🔍 Monitoring
-
-### **Logs**
-- Application logs: `logs/combined.log`
-- Error logs: `logs/error.log`
-- Real-time monitoring via PM2
-
-### **Health Checks**
-- `GET /api/health` - System health status
-- Database connection monitoring
-- Square API connectivity checks
-
-## 🤖 AI Capabilities
-
-### **Natural Language Processing**
-- Intent recognition for different query types
-- Entity extraction (products, timeframes, quantities)
-- Context-aware responses
-
-### **Predictive Analytics**
-- Time-series forecasting for demand
-- Weather correlation analysis
-- Customer behavior prediction
-- Anomaly detection
-
-### **Automated Insights**
-- Trend identification
-- Opportunity detection
-- Risk assessment
-- Performance recommendations
-
-## 📱 Mobile Responsive
-
-The dashboard is fully responsive and works on:
-- Desktop computers
-- Tablets
-- Mobile phones
-- Kitchen displays
-
-## 🔐 Security
-
-- Rate limiting on API endpoints
-- Input validation and sanitization
-- Secure database connections
-- Environment variable protection
-- CORS configuration
+### Endpoints
+- `GET /api/transactions` - Get transaction history
+- `GET /api/analytics/daily` - Get daily analytics
+- `POST /api/sync/square` - Trigger Square sync
+- `GET /api/health` - Health check
 
 ## 🤝 Contributing
 
@@ -258,21 +200,18 @@ The dashboard is fully responsive and works on:
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🆘 Support
 
 For support and questions:
-- Check the logs for error details
-- Verify environment variable configuration
-- Ensure database connections are working
-- Test Square API connectivity
+- Check the [Azure Deployment Guide](DEPLOY-TO-AZURE.md)
+- Review the [Scripts Documentation](scripts/README.md)
+- Open an issue on GitHub
 
-## 🎉 What's Next
+## 🔗 Links
 
-Future enhancements planned:
-- Advanced machine learning models
-- Integration with more POS systems
-- Mobile app development
-- Advanced reporting features
-- Multi-location support
+- [Square Developer Documentation](https://developer.squareup.com/)
+- [TimescaleDB Documentation](https://docs.timescale.com/)
+- [Azure App Service Documentation](https://docs.microsoft.com/en-us/azure/app-service/)
+- [Azure Functions Documentation](https://docs.microsoft.com/en-us/azure/azure-functions/)
