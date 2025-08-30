@@ -97,6 +97,14 @@
             {
               "name": "WEBSITE_NODE_DEFAULT_VERSION",
               "value": "~20"
+            },
+            {
+              "name": "PORT",
+              "value": "8080"
+            },
+            {
+              "name": "LOG_LEVEL",
+              "value": "info"
             }
           ]
         }
@@ -172,6 +180,30 @@
             {
               "name": "MONGODB_URI",
               "value": "mongodb://cafeuser:CafeBrain2024!@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe"
+            },
+            {
+              "name": "SQUARE_ENV",
+              "value": "production"
+            },
+            {
+              "name": "SQUARE_VERSION",
+              "value": "2025-07-16"
+            },
+            {
+              "name": "NODE_ENV",
+              "value": "production"
+            },
+            {
+              "name": "SQ_ORDERS_BACKFILL_DAYS",
+              "value": "30"
+            },
+            {
+              "name": "PORT",
+              "value": "8080"
+            },
+            {
+              "name": "LOG_LEVEL",
+              "value": "info"
             }
           ]
         }
