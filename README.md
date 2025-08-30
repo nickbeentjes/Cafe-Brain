@@ -129,7 +129,7 @@ TIMESCALE_DB=cafe
 TIMESCALE_USER=postgres
 TIMESCALE_PASSWORD=your_password
 
-MONGODB_URI=mongodb://user:password@host:port/database
+MONGODB_URI=mongodb://cafeuser:CafeBrain2024!@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe
 
 # Application Configuration
 NODE_ENV=production

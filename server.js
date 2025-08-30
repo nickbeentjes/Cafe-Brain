@@ -159,65 +159,58 @@ app.post('/api/ai/query', async (req, res) => {
 // Analytics API Routes
 app.get('/api/analytics/revenue', async (req, res) => {
   try {
-    const timescalePool = getTimescalePool();
-    if (!timescalePool) {
-      // Return mock data when database is not available
-      return res.json({
-        today: 0,
-        week: 0,
-        avgTransaction: 0,
-        history: []
-      });
-    }
+    const pool = await getTimescalePool();
     
-    const client = await timescalePool.connect();
-    
+    // Get today's date in local timezone
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
-    const weekAgo = new Date();
-    weekAgo.setDate(weekAgo.getDate() - 7);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     
     // Get today's revenue
-    const todayResult = await client.query(`
-      SELECT COALESCE(SUM(total_amount), 0) as revenue
+    const todayResult = await pool.query(`
+      SELECT COALESCE(SUM(total_money_amount), 0) as today_revenue,
+             COUNT(*) as today_transactions
       FROM transactions 
-      WHERE DATE(created_at) = $1 AND status = 'COMPLETED'
-    `, [today.toISOString().split('T')[0]]);
+      WHERE created_at >= $1 AND created_at < $2
+    `, [today, tomorrow]);
     
-    // Get week's revenue
-    const weekResult = await client.query(`
-      SELECT COALESCE(SUM(total_amount), 0) as revenue
+    // Get week's revenue (last 7 days)
+    const weekAgo = new Date(today);
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    
+    const weekResult = await pool.query(`
+      SELECT COALESCE(SUM(total_money_amount), 0) as week_revenue,
+             COUNT(*) as week_transactions
       FROM transactions 
-      WHERE created_at >= $1 AND status = 'COMPLETED'
-    `, [weekAgo.toISOString()]);
+      WHERE created_at >= $1 AND created_at < $2
+    `, [weekAgo, tomorrow]);
     
     // Get average transaction value
-    const avgResult = await client.query(`
-      SELECT COALESCE(AVG(total_amount), 0) as avg_transaction
+    const avgResult = await pool.query(`
+      SELECT COALESCE(AVG(total_money_amount), 0) as avg_transaction
       FROM transactions 
-      WHERE created_at >= $1 AND status = 'COMPLETED'
-    `, [weekAgo.toISOString()]);
+      WHERE created_at >= $1 AND created_at < $2
+    `, [weekAgo, tomorrow]);
     
-    // Get historical data
-    const historyResult = await client.query(`
-      SELECT DATE(created_at) as date, SUM(total_amount) as revenue
+    // Get historical data for chart
+    const historyResult = await pool.query(`
+      SELECT DATE(created_at) as date,
+             COALESCE(SUM(total_money_amount), 0) as revenue
       FROM transactions 
-      WHERE created_at >= $1 AND status = 'COMPLETED'
+      WHERE created_at >= $1 AND created_at < $2
       GROUP BY DATE(created_at)
       ORDER BY date DESC
       LIMIT 7
-    `, [weekAgo.toISOString()]);
-    
-    client.release();
+    `, [weekAgo, tomorrow]);
     
     res.json({
-      today: parseFloat(todayResult.rows[0]?.revenue || 0),
-      week: parseFloat(weekResult.rows[0]?.revenue || 0),
+      today: parseFloat(todayResult.rows[0]?.today_revenue || 0),
+      week: parseFloat(weekResult.rows[0]?.week_revenue || 0),
       avgTransaction: parseFloat(avgResult.rows[0]?.avg_transaction || 0),
       history: historyResult.rows.map(row => ({
         date: row.date,
-        revenue: parseFloat(row.revenue || 0)
+        revenue: parseFloat(row.revenue)
       }))
     });
   } catch (error) {
@@ -330,11 +323,14 @@ app.get('/api/analytics/customers', async (req, res) => {
     weekAgo.setDate(weekAgo.getDate() - 7);
     
     // Get unique customers today
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
     const todayResult = await client.query(`
       SELECT COUNT(DISTINCT customer_id) as unique_customers
       FROM transactions 
-      WHERE DATE(created_at) = $1 AND status = 'COMPLETED' AND customer_id IS NOT NULL
-    `, [today.toISOString().split('T')[0]]);
+      WHERE created_at >= $1 AND created_at < $2 AND customer_id IS NOT NULL
+    `, [today, tomorrow]);
     
     // Get repeat customer rate
     const repeatResult = await client.query(`

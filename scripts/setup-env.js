@@ -35,7 +35,7 @@ async function setupEnvironment() {
   const mongoPort = await question('MongoDB Port (default: 9017): ') || '9017';
   const mongoDB = await question('MongoDB Database (default: cafe): ') || 'cafe';
   
-  envVars.MONGODB_URI = `mongodb://${mongoHost}:${mongoPort}/${mongoDB}`;
+  envVars.MONGODB_URI = `mongodb://cafeuser:CafeBrain2024!@${mongoHost}:${mongoPort}/?authMechanism=SCRAM-SHA-256&authSource=${mongoDB}`;
   
   console.log('\nOther Configuration:');
   console.log('-------------------');

@@ -10,7 +10,7 @@
     "TIMESCALE_USER": "postgres",
     "TIMESCALE_PASSWORD": "bzchzz",
     
-    "MONGODB_URI": "mongodb://cafeuser:Lynx%245124@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe",
+    "MONGODB_URI": "mongodb://cafeuser:CafeBrain2024!@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe",
     
     "SQUARE_ACCESS_TOKEN": "EAAAEM4OAGO-ToEf-mn8NyvOaxdJeiXejYr3bhcvjkYhyPAryCRFhsd9h3smTYOv",
     "SQUARE_LOCATION_ID": "L5D18K5RBWQJH",

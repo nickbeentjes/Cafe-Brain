@@ -31,7 +31,7 @@ TIMESCALE_USER=postgres'áamP@cific123%qzf'
 
 
 # MongoDB
-MONGODB_URI=mongodb://cafeuser:Lynx%245124@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe
+MONGODB_URI=mongodb://cafeuser:CafeBrain2024!@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe
 
 # External APIs (Optional)
 OPENWEATHER_API_KEY=your_openweather_api_key_here

@@ -35,7 +35,7 @@ const timescaleConfig = {
 
 // MongoDB Configuration
 const mongoConfig = {
-  uri: process.env.MONGODB_URI || 'mongodb://cafeuser:Lynx%245124@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe',
+  uri: process.env.MONGODB_URI || 'mongodb://cafeuser:CafeBrain2024!@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe',
   options: {
     useNewUrlParser: true,
     useUnifiedTopology: true,

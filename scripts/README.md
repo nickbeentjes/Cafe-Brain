@@ -91,7 +91,7 @@ The application uses these environment variables for database configuration:
 - `TIMESCALE_PASSWORD` - Password (optional)
 
 ### MongoDB
-- `MONGODB_URI` - Connection string (default:mongodb://cafeuser:Lynx%245124@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe)
+- `MONGODB_URI` - Connection string (default:mongodb://cafeuser:CafeBrain2024!@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe)
 
 ### Other
 - `NODE_ENV` - Environment (development/production)

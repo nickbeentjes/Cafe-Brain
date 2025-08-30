@@ -61,7 +61,7 @@ TIMESCALE_PORT=5432
 TIMESCALE_DB=cafe
 TIMESCALE_USER=postgres
 TIMESCALE_PASSWORD=bzchzz
-MONGODB_URI=mongodb://cafeuser:Lynx%245124@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe
+MONGODB_URI=mongodb://cafeuser:CafeBrain2024!@4.198.153.55:9017/?authMechanism=SCRAM-SHA-256&authSource=cafe
 ```
 
 ## 🔮 Future Azure AI Integration
